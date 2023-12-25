@@ -1,0 +1,270 @@
+﻿@model FitnessApp1.ViewModels.AdminPanelViewModel
+<style>
+
+    topbar {
+    }
+
+
+
+
+    h1 {
+        color: red; /* Başlık rengi */
+        font-family: 'Times New Roman', Times, serif, sans-serif; /* Başlık fontu */
+        margin-top: 200px;
+        margin-left: 40px;
+    }
+
+    .button-background {
+        margin-top: 70px;
+        width: 350px;
+        height: 500px;
+        background-image: url('https://i.pinimg.com/474x/28/e7/ce/28e7cee8096f263938261641038f1fd1.jpg');
+        background-size: cover;
+        background-position: top;
+        /* Yuvarlak bir arka plan oluşturmak için */
+        flex-shrink: 0; /* Boyutun küçülmemesini sağla */
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: red;
+    }
+
+    h2 {
+        color: red; /* Başlık rengi */
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        margin-left: 25px;
+        margin-top: 50px;
+        font-size: 30px;
+    }
+
+    input[type="submit"] {
+        width: 200px; /* Genişlik */
+        height: 40px; /* Yükseklik */
+        background-color: red; /* Arka plan rengi */
+        color: black; /* Yazı rengi */
+        border: none; /* Kenarlık olmadan */
+        border-radius: 5px; /* Kenar yuvarlama */
+        cursor: pointer; /* Fare üzerine gelince işaretçi tipi */
+        margin-top: 10px; /* Butonlar arası boşluk */
+        font-size: 16px; /* Yazı boyutu */
+    }
+
+
+        /* İlgili butonun üzerine gelindiğinde stilini değiştirme */
+        input[type="submit"]:hover {
+            background-color: red; /* Hover rengi */
+        }
+
+    button {
+        color: red;
+        background-color: black;
+    }
+
+    table {
+        margin-left: 20px;
+        border-collapse: collapse;
+        width: 100%;
+        background-color: white;
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        color: black;
+    }
+
+    th {
+        background-color: red;
+    }
+
+    tr:nth-child(even) {
+        background-color: red;
+    }
+
+    body {
+        background-color: black;
+    }
+</style>
+
+<h2>Tüm Kullanıcılar</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Ad</th>
+            <th>Soyad</th>
+            <th>Düzenle</th>
+            <th>Sil</th>
+
+            <!-- Diğer sütunlar -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var kullanici in Model.Kullanicilar)
+        {
+            <tr>
+                <td>@kullanici.kullanici_ad</td>
+                <td>@kullanici.kullanici_soyad</td>
+                <td>
+                    <form method="post" asp-controller="AdminPaneli" asp-action="Index2">
+                        <input type="hidden" name="kullaniciId" value="@kullanici.kullanici_id" />
+                        <button type="submit">Düzenle</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="post" asp-controller="AdminPaneli" asp-action="Delete">
+                        <input type="hidden" name="kullaniciId" value="@kullanici.kullanici_id" />
+                        <button type="submit">Sil</button>
+                    </form>
+                </td>
+
+                <!-- Diğer sütunlar -->
+            </tr>
+        }
+    </tbody>
+</table>
+<h2>Kullanıcı Ekle</h2>
+@if (!string.IsNullOrEmpty(ViewBag.KayitError))
+{
+    <p style="color: red;">@ViewBag.KayitError</p>
+}
+
+<form asp-controller="AdminPaneli" asp-action="KayitKontrol" method="post">
+    <div>
+        <label for="kullaniciAd">Kullanıcı Adı:</label>
+        <input type="text" id="kullaniciAd" name="kullaniciAd">
+    </div>
+    <div>
+        <label for="kullaniciSoyad">Kullanıcı Soyadı:</label>
+        <input type="text" id="kullaniciSoyad" name="kullaniciSoyad">
+    </div>
+    <div>
+        <label for="dogumTarih">Doğum Tarihi:</label>
+        <input type="date" id="dogumTarih" name="dogumTarih">
+    </div>
+    <div>
+        <label>Cinsiyet:</label>
+        <input type="radio" id="erkek" name="cinsiyet" value="false">
+        <label for="erkek">Erkek</label>
+        <input type="radio" id="kadin" name="cinsiyet" value="true">
+        <label for="kadin">Kadın</label>
+    </div>
+    <div>
+        <label for="kullaniciEposta">E-posta:</label>
+        <input type="email" id="kullaniciEposta" name="kullaniciEposta">
+    </div>
+    <div>
+        <label for="telefon">Telefon:</label>
+        <input type="text" id="telefon" name="telefon">
+    </div>
+    <div>
+        <label for="picture">Profil Resmi Yolu:</label>
+        <input type="text" id="picture" name="picture">
+    </div>
+    <div>
+        <label for="sifre">Şifre:</label>
+        <input type="password" id="sifre" name="sifre">
+    </div>
+    <div>
+        <label for="hedef">Hedef:</label>
+        <select id="hedef" name="hedef">
+            <option value="1">Kilo Kazanma</option>
+            <option value="2">Kilo Kaybetme</option>
+            <option value="3">Kilo Koruma</option>
+            <option value="4">Kas Kazanma</option>
+        </select>
+    </div>
+    <div>
+        <input type="submit" value="Kayıt Ol">
+    </div>
+</form>
+
+<h2>Tüm Antrenörler</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Ad</th>
+            <th>Soyad</th>
+            <th>Düzenle</th>
+            <th>Sil</th>
+            <!-- Diğer sütunlar -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var antrenor in Model.Antrenorler)
+        {
+            <tr>
+                <td>@antrenor.antrenor_ad</td>
+                <td>@antrenor.antrenor_soyad</td>
+                <td>
+                    <form method="post" asp-controller="AdminPaneli" asp-action="Index1">
+                        <input type="hidden" name="antrenorId" value="@antrenor.antrenor_id" />
+                        <button type="submit">Düzenle</button>
+                    </form>
+                </td>
+
+                <td>
+                    <form method="post" asp-controller="AdminPaneli" asp-action="DeleteAntrenor">
+                        <input type="hidden" name="antrenorId" value="@antrenor.antrenor_id" />
+                        <button type="submit">Sil</button>
+                    </form>
+                </td>
+
+                <!-- Diğer sütunlar -->
+            </tr>
+        }
+    </tbody>
+</table>
+<h2>Antrenör Ekle</h2>
+@if (!string.IsNullOrEmpty(ViewBag.KayitError))
+{
+    <p style="color: red;">@ViewBag.KayitError</p>
+}
+
+<form asp-controller="AdminPaneli" asp-action="KayitKontrol1" method="post">
+    <div>
+        <label for="antrenorad">Antrenor Adı:</label>
+        <input type="text" id="antrenorad" name="antrenorad">
+    </div>
+    <div>
+        <label for="antrenorsoyad">Antrenor Soyadı:</label>
+        <input type="text" id="antrenorsoyad" name="antrenorsoyad">
+    </div>
+    <div>
+        <label for="eposta">E-posta:</label>
+        <input type="email" id="eposta" name="eposta">
+    </div>
+    <div>
+        <label for="telefon">Telefon:</label>
+        <input type="text" id="telefon" name="telefon">
+    </div>
+    <div>
+        <label>Cinsiyet:</label>
+        <input type="radio" id="erkek" name="cinsiyet" value="false">
+        <label for="erkek">Erkek</label>
+        <input type="radio" id="kadin" name="cinsiyet" value="true">
+        <label for="kadin">Kadın</label>
+    </div>
+    <div>
+        <label for="picture">Profil Resmi Yolu:</label>
+        <input type="text" id="picture" name="picture">
+    </div>
+    <div>
+        <label for="sifre">Şifre:</label>
+        <input type="password" id="sifre" name="sifre">
+    </div>
+    <div>
+        <label for="uzmanlik">Uzmanlik:</label>
+        <select id="uzmanlik" name="uzmanlik">
+            <option value="1">Kilo Kazanma</option>
+            <option value="2">Kilo Kaybetme</option>
+            <option value="3">Kilo Koruma</option>
+            <option value="4">Kas Kazanma</option>
+        </select>
+    </div>
+    <div>
+        <input type="submit" value="Kayıt Ol">
+    </div>
+</form>

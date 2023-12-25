@@ -1,0 +1,452 @@
+﻿@model FitnessApp1.Models.AdminTumTablolarViewModel
+
+<style>
+
+    topbar {
+    }
+
+
+
+
+    h1 {
+        color: red; /* Başlık rengi */
+        font-family: 'Times New Roman', Times, serif, sans-serif; /* Başlık fontu */
+        margin-top: 200px;
+        margin-left: 40px;
+    }
+
+    .button-background {
+        margin-top: 70px;
+        width: 350px;
+        height: 500px;
+        background-image: url('https://i.pinimg.com/474x/28/e7/ce/28e7cee8096f263938261641038f1fd1.jpg');
+        background-size: cover;
+        background-position: top;
+        /* Yuvarlak bir arka plan oluşturmak için */
+        flex-shrink: 0; /* Boyutun küçülmemesini sağla */
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: red;
+    }
+
+    h2 {
+        color: red; /* Başlık rengi */
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        margin-left: 25px;
+        margin-top: 50px;
+        font-size: 30px;
+    }
+
+    input[type="submit"] {
+        width: 200px; /* Genişlik */
+        height: 40px; /* Yükseklik */
+        background-color: red; /* Arka plan rengi */
+        color: black; /* Yazı rengi */
+        border: none; /* Kenarlık olmadan */
+        border-radius: 5px; /* Kenar yuvarlama */
+        cursor: pointer; /* Fare üzerine gelince işaretçi tipi */
+        margin-top: 10px; /* Butonlar arası boşluk */
+        font-size: 16px; /* Yazı boyutu */
+    }
+
+
+        /* İlgili butonun üzerine gelindiğinde stilini değiştirme */
+        input[type="submit"]:hover {
+            background-color: red; /* Hover rengi */
+        }
+
+    button {
+        color: red;
+        background-color: black;
+    }
+
+    table {
+        margin-left: 20px;
+        border-collapse: collapse;
+        width: 100%;
+        background-color: white;
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        color: black;
+    }
+
+    th {
+        background-color: red;
+    }
+
+    tr:nth-child(even) {
+        background-color: red;
+    }
+
+    body {
+        background-color: black;
+    }
+</style>
+@foreach (var kullanici in Model.Kullanicilar)
+{
+    @if (ViewBag.picture== "")
+    {
+        <img src="https://i.pinimg.com/474x/fd/81/76/fd81760500afdbae097cb23b1b720c76.jpg" width="150" height="150">
+    }
+    @if (ViewBag.picture!= "")
+    {
+        <img src="@ViewBag.picture" width="150" height="150">
+    }
+    <tr>
+        <td>
+            <form asp-controller="AdminPaneli" asp-action="UpdateKullanici" method="post">
+                <input type="hidden" name="id" value="@kullanici.kullanici_id" />
+                <input type="hidden" name="cinsiyet" value="@kullanici.cinsiyet" />
+
+                <label for="ad_@kullanici.kullanici_id">Ad:</label>
+                <input type="text" name="ad" id="ad_@kullanici.kullanici_id" value="@kullanici.kullanici_ad" /><br />
+
+                <label for="soyad_@kullanici.kullanici_id">Soyad:</label>
+                <input type="text" name="soyad" id="soyad_@kullanici.kullanici_id" value="@kullanici.kullanici_soyad" /><br />
+
+                <label for="dogumTarih_@kullanici.kullanici_id">Doğum Tarihi:</label>
+                <input type="date" name="dogumTarih" id="dogumTarih_@kullanici.kullanici_id" value="@kullanici.dogum_tarih.ToString("yyyy-MM-dd")" /><br />
+
+
+
+                <label for="ePosta_@kullanici.kullanici_id">E-Posta:</label>
+                <input type="email" name="ePosta" id="ePosta_@kullanici.kullanici_id" value="@kullanici.e_posta" /><br />
+
+                <label for="telefon_@kullanici.kullanici_id">Telefon:</label>
+                <input type="text" name="telefon" id="telefon_@kullanici.kullanici_id" value="@kullanici.telefon" /><br />
+
+                <label for="picture_@kullanici.kullanici_id">Resim:</label>
+                <input type="text" name="picture" id="picture_@kullanici.kullanici_id" value="@kullanici.picture" /><br />
+
+                <label for="sifre_@kullanici.kullanici_id">Şifre:</label>
+                <input type="password" name="sifre" id="sifre_@kullanici.kullanici_id" value="@kullanici.sifre" /><br />
+
+                <label for="antrenor_id_@kullanici.kullanici_id">Antrenör ID:</label>
+                <input type="text" name="antrenor_id" id="antrenor_id_@kullanici.kullanici_id" value="@kullanici.antrenor_id" readonly /><br />
+
+                <label for="anternor_id_@kullanici.kullanici_id">Antrenör ID Değiştir:</label>
+                <select id="antrenor_id_@kullanici.kullanici_id" name="antrenor_id" onchange="setAntrenorID(this)">
+                    @foreach (var item in Model.Antrenorler)
+                    {
+                        <option value="@item.antrenor_id">@item.antrenor_id @item.antrenor_ad @item.antrenor_soyad @item.uzmanlik</option>
+                    }
+                </select><br />
+
+                <script>
+                    function setAntrenorID(select) {
+                        var selectedValue = select.value;
+                        var antrenorIDField = document.getElementById('antrenor_id_@kullanici.kullanici_id');
+                        if (antrenorIDField) {
+                            antrenorIDField.value = selectedValue;
+                        }
+                    }
+                </script>
+
+
+                <select id="hedef_@kullanici.kullanici_id" name="hedef">
+                    @foreach (var item in GetHedefOptions(kullanici.hedef))
+                    {
+                        <option value="@item.Value" selected="@item.Selected">@item.Text</option>
+                    }
+                </select><br />
+
+
+                <input type="submit" value="Güncelle" />
+            </form>
+        </td>
+    </tr>
+}
+
+
+<h2>Beslenme Programları @ViewBag.kalori</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Hedef</th>
+            <th>Günlük Öğün</th>
+            <th>Kalori Hedef</th>
+            <th>Düzenle</th>
+            <th>Sil</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var beslenmeProgrami in Model.BeslenmeProgramlari)
+        {
+            <tr>
+                <td>@beslenmeProgrami.hedef</td>
+                <td>@beslenmeProgrami.gunluk_ogun</td>
+                <td>@beslenmeProgrami.kalori_hedef</td>
+                <td>
+                    <form asp-controller="AdminPaneli" asp-action="UpdateBeslenmeProgrami" method="post">
+
+                        <input type="hidden" name="id" value="@beslenmeProgrami.id" />
+
+                        <label for="gunluk_ogun_@beslenmeProgrami.kullanici_id">Günlük Öğün:</label>
+                        <input type="text" name="gunluk_ogun" id="gunluk_ogun_@beslenmeProgrami.kullanici_id" value="@beslenmeProgrami.gunluk_ogun" /><br />
+
+                        <label for="hedef_@beslenmeProgrami.kullanici_id">Hedef:</label>
+                        <input type="number" name="hedef" id="hedef_@beslenmeProgrami.kullanici_id" value="@beslenmeProgrami.hedef" /><br />
+
+                        <label for="kaloriHedef_@beslenmeProgrami.kullanici_id">Kalori Hedefi:</label>
+                        <input type="number" name="kalori_hedef" id="kaloriHedef_@beslenmeProgrami.kullanici_id" value="@beslenmeProgrami.kalori_hedef" /><br />
+
+                        <input type="submit" value="Güncelle Beslenme" />
+                    </form>
+                </td>
+                <td>
+                    <form method="post" asp-controller="AdminPaneli" asp-action="DeleteBeslenme">
+                        <input type="hidden" name="id" value="@beslenmeProgrami.id" />
+                        <button type="submit">Sil</button>
+                    </form>
+                </td>
+
+            </tr>
+        }
+        <form asp-controller="AdminPaneli" asp-action="BeslenmeEkle" method="post">
+            <input type="hidden" name="kullanici_id" value="@ViewBag.kullanici_id" />
+            <input type="hidden" name="antrenor_id" value="@ViewBag.antrenor_id" />
+
+
+    <td><input type="number" name="hedef" placeholder="Hedef" required /></td>
+    <td><input type="text" name="gunluk_ogun" placeholder="Günlük Öğün" required /></td>
+    <td><input type="number" name="kalori_hedef" placeholder="Kalori Hedef" required /></td>
+
+
+    <td><input type="submit" value="Beslenme Ekle" /></td>
+    </form>
+
+
+    </tbody>
+</table>
+
+<h2>Egzersiz Programları</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Egzersiz Adı</th>
+            <th>Hedef</th>
+            <th>Set Sayısı</th>
+            <th>Video Link</th>
+
+            <th>Program Süresi</th>
+            <th>Düzenle</th>
+            <th>Sil</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var egzersizProgrami in Model.EgzersizProgramlari)
+        {
+            <tr>
+                <td>@egzersizProgrami.egzersiz_ad</td>
+                <td>@egzersizProgrami.hedef</td>
+                <td>@egzersizProgrami.set_sayi</td>
+                <td>@egzersizProgrami.video_link</td>
+                <td>@egzersizProgrami.baslama_tarih</td>
+
+                <td>@egzersizProgrami.program_sure</td>
+
+                <td>
+                    <form asp-controller="AdminPaneli" asp-action="UpdateEgzersizProgrami" method="post">
+                        <input type="hidden" name="id_egzersiz" value="@egzersizProgrami.id" />
+
+                        <label for="egzersiz_ad_@egzersizProgrami.kullanici_id">Egzersiz Ad:</label>
+                        <input type="text" name="egzersiz_ad" id="egzersiz_ad_@egzersizProgrami.kullanici_id" value="@egzersizProgrami.egzersiz_ad" /><br />
+
+
+                        <label for="hedef_@egzersizProgrami.kullanici_id">Hedef:</label>
+                        <input type="number" name="hedef" id="hedef_@egzersizProgrami.kullanici_id" value="@egzersizProgrami.hedef" /><br />
+
+                        <label for="set_sayi_@egzersizProgrami.kullanici_id">Set Sayısı:</label>
+                        <input type="number" name="set_sayi" id="set_sayi_@egzersizProgrami.kullanici_id" value="@egzersizProgrami.set_sayi" /><br />
+
+                        <label for="video_link_@egzersizProgrami.kullanici_id">Video Link:</label>
+                        <input type="text" name="video_link" id="video_link_@egzersizProgrami.kullanici_id" value="@egzersizProgrami.video_link" /><br />
+
+                        <label for="baslama_tarih_@egzersizProgrami.kullanici_id">Video Link:</label>
+                        <input type="datetime" name="baslama_tarih" id="baslama_tarih_@egzersizProgrami.kullanici_id" value="@egzersizProgrami.baslama_tarih" /><br />
+
+                        <label for="program_sure_@egzersizProgrami.kullanici_id">Program Süresi:</label>
+                        <input type="text" name="program_sure" id="program_sure_@egzersizProgrami.kullanici_id" value="@egzersizProgrami.program_sure" /><br />
+
+                        <input type="submit" value="Güncelle Egzersiz" />
+                    </form>
+
+
+                </td>
+                <td>
+                    <form method="post" asp-controller="AdminPaneli" asp-action="DeleteEgzersiz">
+                        <input type="hidden" name="id" value="@egzersizProgrami.id" />
+                        <button type="submit">Sil</button>
+                    </form>
+                </td>
+
+
+                <!-- Diğer sütunlar için aynı şekilde devam edebilirsiniz -->
+            </tr>
+        }
+        <form asp-controller="AdminPaneli" asp-action="EgzersizEkle" method="post">
+            <input type="hidden" name="kullanici_id" value="@ViewBag.kullanici_id" />
+            <input type="hidden" name="antrenor_id" value="@ViewBag.antrenor_id" />
+    <td><input type="text" name="egzersiz_ad" placeholder="Egzersiz Adı" required /></td>
+    <td><input type="number" name="hedef" placeholder="Hedef" required /></td>
+    <td><input type="number" name="set_sayi" placeholder="Set Sayı" required /></td>
+    <td><input type="text" name="video_link" placeholder="Video Link" required /></td>
+    <td><input type="datetime" name="baslama_tarih" placeholder="Başlama Tarihi" required /></td>
+    <td><input type="text" name="program_sure" placeholder="Program Süresi" required /></td>
+
+    <td><input type="submit" value="Egzersiz Ekle" /></td>
+    </form>
+    </tbody>
+</table>
+<h2>Guncel Versiyon</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Kilo</th>
+            <th>Boy</th>
+
+            <th>Kas Oranı</th>
+            <th>Yağ Oranı</th>
+            <th>Yakılan Kalori</th>
+            <th>Alınan Kalori</th>
+            <th>Düzenle</th>
+            <th>Sil</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var guncelversiyon in Model.GuncelVersiyonlari)
+        {
+            <tr>
+                <td>@guncelversiyon.kullanici_kilo</td>
+                <td>@guncelversiyon.kullanici_boy</td>
+
+                <td>@guncelversiyon.kas_orani</td>
+                <td>@guncelversiyon.yag_orani</td>
+                <td>@guncelversiyon.yakilan_kalori</td>
+                <td>@guncelversiyon.alinan_kalori</td>
+                <td>
+                    <form asp-controller="AdminPaneli" asp-action="UpdateGuncelVersiyon" method="post">
+                        <input type="hidden" name="id_versiyon" value="@guncelversiyon.id" />
+
+
+
+
+
+
+
+
+                        <label for="kullanici_kilo_@guncelversiyon.kullanici_id">Kullanıcı Kilo:</label>
+                        <input type="number" name="kullanici_kilo" id="kullanici_kilo_@guncelversiyon.kullanici_id" value="@guncelversiyon.kullanici_kilo" /><br />
+
+                        <label for="kullanici_boy_@guncelversiyon.kullanici_id">Kullanıcı Boy:</label>
+                        <input type="number" name="kullanici_boy" id="kullanici_boy_@guncelversiyon.kullanici_id" value="@guncelversiyon.kullanici_boy" /><br />
+
+                        <label for="kas_orani_@guncelversiyon.kullanici_id">Kas Oranı:</label>
+                        <input type="number" name="kas_orani" id="kas_orani_@guncelversiyon.kullanici_id" value="@guncelversiyon.kas_orani" /><br />
+
+                        <label for="yag_orani_@guncelversiyon.kullanici_id">Yağ Oranı:</label>
+                        <input type="number" name="yag_orani" id="yag_orani_@guncelversiyon.kullanici_id" value="@guncelversiyon.yag_orani" /><br />
+
+                        <label for="yakilan_kalori_@guncelversiyon.kullanici_id">Yakılan Kalori:</label>
+                        <input type="number" name="yakilan_kalori" id="yakilan_kalori_@guncelversiyon.kullanici_id" value="@guncelversiyon.yakilan_kalori" /><br />
+
+                        <label for="alinan_kalori_@guncelversiyon.kullanici_id">Alınan Kalori:</label>
+                        <input type="number" name="alinan_kalori" id="alinan_kalori_@guncelversiyon.kullanici_id" value="@guncelversiyon.alinan_kalori" /><br />
+
+                        <input type="submit" value="Güncelle Guncel Versiyon" />
+                    </form>
+
+                </td>
+                <td>
+                    <form method="post" asp-controller="AdminPaneli" asp-action="DeleteVersiyon">
+                        <input type="hidden" name="id" value="@guncelversiyon.id" />
+                        <button type="submit">Sil</button>
+                    </form>
+                </td>
+
+
+
+
+                <!-- Diğer sütunlar için aynı şekilde devam edebilirsiniz -->
+            </tr>
+        }
+        <tr>
+            <form asp-controller="AdminPaneli" asp-action="VersiyonEkle" method="post">
+                <input type="hidden" name="kullanici_id" value="@ViewBag.kullanici_id" />
+
+            <td><input type="number" name="kullanici_kilo" placeholder="Kilo" required /></td>
+            <td><input type="number" name="kullanici_boy" placeholder="Boy" required /></td>
+            <td><input type="number" name="kas_orani" placeholder="Kas Oranı" required /></td>
+            <td><input type="number" name="yag_orani" placeholder="Yağ Oranı" required /></td>
+            <td><input type="number" name="yakilan_kalori" placeholder="Yakılan Kalori" required /></td>
+            <td><input type="number" name="alinan_kalori" placeholder="Alınan Kalori" required /></td>
+            <td><input type="submit" value="Bilgi Ekle" /></td>
+            </form>
+        </tr>
+    </tbody>
+</table>
+<h2>Diğer Antrenörler</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Ad</th>
+            <th>Soyad</th>
+            <th>Telefon</th>
+            <th>Cinsiyet</th>
+            <th>Eposta</th>
+            <th>Picture</th>
+            <th>İd</th>
+            <th>Uzmanlık</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var antrenorlar in Model.Antrenorler)
+        {
+            <tr>
+                <td>@antrenorlar.antrenor_ad</td>
+                <td>@antrenorlar.antrenor_soyad</td>
+                <td>@antrenorlar.telefon</td>
+                <td>@antrenorlar.cinsiyet</td>
+                <td>@antrenorlar.e_posta</td>
+                <td>@antrenorlar.picture</td>
+                <td>@antrenorlar.antrenor_id</td>
+                <td>@antrenorlar.uzmanlik</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@functions {
+    public List<SelectListItem> GetHedefOptions(int selectedValue)
+    {
+        return new List<SelectListItem>
+{
+
+            new SelectListItem { Text = "1 - Kilo Kazanma", Value = "1", Selected = (selectedValue == 1) },
+            new SelectListItem { Text = "2 - Kilo Kaybetme", Value = "2", Selected = (selectedValue == 2) },
+            new SelectListItem { Text = "3 - Kilo Koruma", Value = "3", Selected = (selectedValue == 3) },
+            new SelectListItem { Text = "4 - Kas Kazanma", Value = "4", Selected = (selectedValue == 4) }
+
+        };
+    }
+    public List<SelectListItem> GetHedefOptions1(int selectedValue)
+    {
+        return new List<SelectListItem>
+{
+
+            new SelectListItem { Text = "1 - Kilo Kazanma", Value = "1", Selected = (selectedValue == 1) },
+            new SelectListItem { Text = "2 - Kilo Kaybetme", Value = "2", Selected = (selectedValue == 2) },
+            new SelectListItem { Text = "3 - Kilo Koruma", Value = "3", Selected = (selectedValue == 3) },
+            new SelectListItem { Text = "4 - Kas Kazanma", Value = "4", Selected = (selectedValue == 4) }
+
+        };
+    }
+}

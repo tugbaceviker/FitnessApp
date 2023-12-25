@@ -1,0 +1,189 @@
+﻿@using FitnessApp1.Models
+@model AntrenorKullaniciViewModel
+<style>
+    .sidebar {
+        width: 170px; /* Yan menünün genişliği */
+        background-color: yellowgreen; /* Yan menü arka plan rengi */
+        height: 100%; /* Sayfa boyunca uzunluk */
+        position: fixed; /* Sabit konum */
+        top: 0; /* Üstten başlama pozisyonu */
+        left: 0; /* Soldan başlama pozisyonu */
+        overflow-x: hidden; /* Yatay scrollbar'ı gizle */
+        padding-top: 20px;
+    }
+
+        .sidebar a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 20px;
+            color: #000;
+            display: block;
+        }
+
+            .sidebar a:hover {
+                background-color: #ddd; /* Fare üstüne gelindiğinde arka plan rengi */
+            }
+
+
+    h1 {
+        color: rosybrown; /* Başlık rengi */
+        font-family: 'Times New Roman', Times, serif, sans-serif; /* Başlık fontu */
+        margin-top: 200px;
+        margin-left: 40px;
+    }
+
+    .button-background {
+        margin-top: 70px;
+        width: 350px;
+        height: 500px;
+        background-image: url('https://i.pinimg.com/474x/28/e7/ce/28e7cee8096f263938261641038f1fd1.jpg');
+        background-size: cover;
+        background-position: top;
+        /* Yuvarlak bir arka plan oluşturmak için */
+        flex-shrink: 0; /* Boyutun küçülmemesini sağla */
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: rosybrown;
+    }
+
+    h2 {
+        color: yellowgreen; /* Başlık rengi */
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        margin-left: 100px;
+        margin-top: 50px;
+        font-size: 30px;
+    }
+
+    input[type="submit"] {
+        width: 200px; /* Genişlik */
+        height: 40px; /* Yükseklik */
+        background-color: wheat; /* Arka plan rengi */
+        color: rosybrown; /* Yazı rengi */
+        border: none; /* Kenarlık olmadan */
+        border-radius: 5px; /* Kenar yuvarlama */
+        cursor: pointer; /* Fare üzerine gelince işaretçi tipi */
+        margin-top: 10px; /* Butonlar arası boşluk */
+        font-size: 16px; /* Yazı boyutu */
+    }
+
+
+        /* İlgili butonun üzerine gelindiğinde stilini değiştirme */
+        input[type="submit"]:hover {
+            background-color: yellow; /* Hover rengi */
+        }
+
+    button {
+        color: yellowgreen;
+        background-color: black;
+    }
+
+    table {
+        margin-left: 85px;
+        border-collapse: collapse;
+        width: 100%;
+        background-color: white;
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        color: black;
+    }
+
+    th {
+        background-color: yellowgreen;
+    }
+
+    tr:nth-child(even) {
+        background-color: lightyellow;
+    }
+
+    body {
+        background-image: url('https://i.pinimg.com/564x/cf/8b/8b/cf8b8bd73856fc7df8374a5a650c7bb5.jpg'); /* Arkaplan resminin URL'sini buraya ekleyin */
+        background-size: center; /* Resmi ekran boyutuna uyacak şekilde ölçeklendir */
+        background-position: right; /* Resmi ortala */
+    }
+</style>
+
+<h2>Öğrencileriniz</h2>
+<div class="sidebar">
+    @if (ViewBag.picture == "")
+    {
+        <img src="https://i.pinimg.com/474x/fd/81/76/fd81760500afdbae097cb23b1b720c76.jpg" width="150" height="150">
+    }
+    @if (ViewBag.picture != "")
+    {
+        <img src="@ViewBag.picture" width="150" height="150">
+    }
+
+    <form method="post" asp-controller="AntrenorAnaPanel" asp-action="Index2">
+        <input type="hidden" name="antrenor_id" value="@ViewBag.Id" />
+        <button type="submit">&#128100;Profilim</button>
+    </form>
+
+</div>
+<table>
+    <thead>
+        <tr>
+            <th>Ad</th>
+            <th>Soyad</th>
+            <th>Doğum Tarihi</th>
+            <th>Cinsiyet</th>
+            <th>Eposta</th>
+            <th>Telefon</th>
+
+            <th>Hedef</th>
+            <th>Düzenle</th>
+            <!-- Diğer sütunlar -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var kullanici in Model.KullaniciListesi)
+        {
+
+
+            <tr>
+                <td>@kullanici.kullanici_ad</td>
+                <td>@kullanici.kullanici_soyad</td>
+                <td>@kullanici.dogum_tarih.ToShortDateString()</td>
+                <td>@kullanici.cinsiyet</td>
+                <td>@kullanici.e_posta</td>
+                <td>@kullanici.telefon</td>
+
+                <td>
+                    @if (kullanici.hedef == 1)
+                    {
+                        <text>Kilo kazanma</text>
+                    }
+                    else if (kullanici.hedef == 2)
+                    {
+                        <text>Kilo kaybetme</text>
+                    }
+                    else if (kullanici.hedef == 3)
+                    {
+                        <text>Kilo koruma</text>
+                    }
+                    else if (kullanici.hedef == 4)
+                    {
+                        <text>Kas kazanma</text>
+                    }
+                </td>
+                <!-- ... Diğer sütunlar ... -->
+                <td>
+                    <form method="post" asp-controller="AntrenorAnaPanel" asp-action="Index1">
+                        <input type="hidden" name="kullanici_id" value="@kullanici.kullanici_id" />
+                        <input type="hidden" name="antrenor_id" value="@ViewBag.Id" />
+                        <button type="submit">Bilgiler</button>
+                    </form>
+                </td>
+            </tr>
+
+
+
+        }
+    </tbody>
+</table>

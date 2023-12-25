@@ -1,0 +1,106 @@
+﻿@page
+@{
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Fitness Sayfası</title>
+        <style>
+            body {
+                background-image: url('https://i.pinimg.com/564x/b8/8c/ed/b88ceda7fddada3b5589d264e93dba6a.jpg'); /* Arkaplan resminin URL'sini buraya ekleyin */
+                background-size: cover; /* Resmi ekran boyutuna uyacak şekilde ölçeklendir */
+                background-position: center; /* Resmi ortala */
+            }
+            h1 {
+                color: yellowgreen; /* Başlık rengi */
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif: 70px;
+                margin-left :300px;
+                margin-top:100px;
+                font-size:70px;
+            }
+            .sidebar {
+                width: 350px; /* Yan menünün genişliği */
+                background-color: yellowgreen; /* Yan menü arka plan rengi */
+                height: 100%; /* Sayfa boyunca uzunluk */
+                position: fixed; /* Sabit konum */
+                top: 0; /* Üstten başlama pozisyonu */
+                left: 0; /* Soldan başlama pozisyonu */
+                overflow-x: hidden; /* Yatay scrollbar'ı gizle */
+                padding-top: 20px;
+            }
+
+                .sidebar a {
+                    padding: 6px 8px 6px 16px;
+                    text-decoration: none;
+                    font-size: 20px;
+                    color: #000;
+                    display: block;
+                }
+
+                    .sidebar a:hover {
+                        background-color: #ddd; /* Fare üstüne gelindiğinde arka plan rengi */
+                    }
+           
+
+            /* Butonların stilleri */
+            .button-container {
+                display: flex;
+                justify-content: flex-end; /* Butonları sağa hizala */
+                
+                margin-top: 90px;
+                margin-right: 350px; /* Sağdan boşluk */
+                gap: 50px; /* Butonlar arası boşluk */
+            }
+          
+
+            .button-container button {
+                display: block;
+                width: 300px;
+                height: 100px;
+                background-color: black;
+                color: yellowgreen;
+                border: none;
+                border-radius: 45px;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                font-size: 30px;
+                transition: background-color 0.3s ease; /* Durağanlık efekti */
+            }
+
+                .button-container button:hover {
+                        background-color:yellow; /* Örnek olarak farklı bir mavi tonu */
+                    }
+
+            .button-background {
+                margin-top:80px;
+                width: 350px;
+                height:500px;
+                background-image: url('https://i.pinimg.com/564x/3b/98/be/3b98be2b83bd6ce5d12313d56630d3c0.jpg');
+                background-size: cover;
+                background-position: center;
+                /* Yuvarlak bir arka plan oluşturmak için */
+                flex-shrink: 0; /* Boyutun küçülmemesini sağla */
+            }
+                
+        </style>
+    </head>
+    <body>
+       
+        <h1>BURDAYSAN ARTIN VAR </h1>
+        <div class="button-container">
+            
+
+            <div class="sidebar">
+                <div class="button-background"> </div>
+            </div>
+
+                <div>
+                    <button onclick="window.location.href='/AntrenorGiris/Index'">ANTRENÖR</button>
+                    <button onclick="window.location.href='/KullaniciGiris/Index'">KULLANICI</button>
+                    <button onclick="window.location.href='/AdminGiris/Index'">ADMİN</button>
+                </div>
+            
+        </div>
+    </body>
+</html>
+}
+

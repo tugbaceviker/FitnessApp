@@ -1,0 +1,100 @@
+﻿@{
+    ViewData["Title"] = "Antrenor Giriş Paneli";
+}
+<style>
+    body{
+        background-color:black;
+    }
+    .sidebar {
+        width: 350px; /* Yan menünün genişliği */
+        background-color: yellowgreen; /* Yan menü arka plan rengi */
+        height: 100%; /* Sayfa boyunca uzunluk */
+        position: fixed; /* Sabit konum */
+        top: 0; /* Üstten başlama pozisyonu */
+        left: 0; /* Soldan başlama pozisyonu */
+        overflow-x: hidden; /* Yatay scrollbar'ı gizle */
+        padding-top: 20px;
+    }
+
+        .sidebar a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 20px;
+            color: #000;
+            display: block;
+        }
+
+            .sidebar a:hover {
+                background-color: #ddd; /* Fare üstüne gelindiğinde arka plan rengi */
+            }
+    h1 {
+        color: yellowgreen; /* Başlık rengi */
+        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        margin-left: 400px;
+        margin-top:50px;
+        font-size:50px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 10px;
+        color: yellowgreen;
+        
+     
+    }
+    .button-background {
+        margin-top: 70px;
+        width: 350px;
+        height: 500px;
+        background-image: url('https://i.pinimg.com/564x/73/32/20/7332204c01c80da58bbe26d4218b62dd.jpg');
+        background-size: cover;
+        background-position: top;
+        /* Yuvarlak bir arka plan oluşturmak için */
+        flex-shrink: 0; /* Boyutun küçülmemesini sağla */
+    }
+
+    input[type="submit"] {
+        width: 600px; /* Genişlik */
+        height: 40px; /* Yükseklik */
+        background-color:yellowgreen; /* Arka plan rengi */
+        color:  black;  /*Yazı rengi */
+        border: none; /* Kenarlık olmadan */
+        border-radius: 5px; /* Kenar yuvarlama */
+        cursor: pointer; /* Fare üzerine gelince işaretçi tipi */
+        margin-top: 10px; /* Butonlar arası boşluk */
+        font-size: 16px; /* Yazı boyutu */
+    }
+
+        /* İlgili butonun üzerine gelindiğinde stilini değiştirme */
+        input[type="submit"]:hover {
+            background-color: yellow; /* Hover rengi */
+        }
+</style>
+
+
+
+
+<h1>Antrenör Giriş Paneli</h1>
+
+
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <p style="color: red;">@ViewBag.Error</p>
+}
+
+<form asp-controller="AntrenorGiris" asp-action="GirisKontrol" method="post" style="max-width: 300px; margin: 0 auto;">
+    <div class="sidebar">
+        <div class="button-background"> </div>
+    </div>
+    <div style="margin-bottom: 10px;">
+        <label for="kullaniciEposta">E-posta &#128231;:</label>
+        <input type="email" id="kullaniciEposta" name="kullaniciEposta" style="width: 200%; padding: 8px;">
+    </div>
+    <div style="margin-bottom: 10px;">
+        <label for="id">Şifre &#128273;:</label>
+        <input type="password" id="id" name="id" style="width: 200%; padding: 8px;">
+    </div>
+    <div>
+        <input type="submit" value="Giriş">
+    </div>
+</form>

@@ -1,0 +1,66 @@
+﻿@using FitnessApp1
+@model List<antrenor1>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Show Data</title>
+    <style>
+        /* Stillemeler burada yapılabilir */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        th {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Antrenör Verileri</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Antrenör Adı</th>
+                <th>Antrenör Soyadı</th>
+                <th>E-Posta</th>
+                <th>Telefon</th>
+                <th>Cinsiyet</th>
+                <th>Resim</th>
+                <th>Antrenör ID</th>
+                <th>Şifre</th>
+                <th>Uzmanlık</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.antrenor_ad</td>
+                    <td>@item.antrenor_soyad</td>
+                    <td>@item.e_posta</td>
+                    <td>@item.telefon</td>
+                    <td>@item.cinsiyet</td>
+                    <td>@item.picture</td>
+                    <td>@item.antrenor_id</td>
+                    <td>@item.sifre</td>
+                    <td>@item.uzmanlik</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

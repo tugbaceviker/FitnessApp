@@ -1,0 +1,233 @@
+﻿@{
+    ViewData["Title"] = "Kullanıcı Giriş ve Kayıt Ol";
+}
+<style>
+
+    body {
+        background-color: black;
+    }
+
+    .sidebar {
+        width: 350px; /* Yan menünün genişliği */
+        background-color: yellowgreen; /* Yan menü arka plan rengi */
+        height: 100%; /* Sayfa boyunca uzunluk */
+        position: fixed; /* Sabit konum */
+        top: 0; /* Üstten başlama pozisyonu */
+    
+        right:0;/* Soldan başlama pozisyonu */
+        overflow-x: hidden; /* Yatay scrollbar'ı gizle */
+        padding-top: 20px;
+    }
+        .sidebar h3 {
+            text-align: center;
+            color:black;
+        }
+
+
+        .sidebar a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 20px;
+            color: #000;
+            display: block;
+        }
+
+            .sidebar a:hover {
+                background-color: #ddd; /* Fare üstüne gelindiğinde arka plan rengi */
+            }
+
+    h1 {
+        color: yellowgreen; /* Başlık rengi */
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        margin-left: 200px;
+        margin-top: 50px;
+        font-size: 50px;
+    }
+    h2{
+        color:yellowgreen;
+    }
+   
+    label {
+        display: block;
+        margin-bottom: 10px;
+        color: yellowgreen;
+    }
+
+    .button-background {
+        margin-top: 70px;
+        width: 350px;
+        height: 500px;
+        background-image: url('https://i.pinimg.com/474x/25/bf/13/25bf1306e6e49063586cd87d28fb5a4b.jpg');
+        background-size: cover;
+        background-position: top;
+        /* Yuvarlak bir arka plan oluşturmak için */
+        flex-shrink: 0; /* Boyutun küçülmemesini sağla */
+    }
+
+    input[type="submit"] {
+        width: 600px; /* Genişlik */
+        height: 40px; /* Yükseklik */
+        background-color: yellowgreen; /* Arka plan rengi */
+        color: black; /*Yazı rengi */
+        border: none; /* Kenarlık olmadan */
+        border-radius: 5px; /* Kenar yuvarlama */
+        cursor: pointer; /* Fare üzerine gelince işaretçi tipi */
+        margin-top: 10px; /* Butonlar arası boşluk */
+        font-size: 16px; /* Yazı boyutu */
+    }
+
+        /* İlgili butonun üzerine gelindiğinde stilini değiştirme */
+        input[type="submit"]:hover {
+            background-color: yellow; /* Hover rengi */
+        }
+    input[type="password"] {
+        width: 600px; /* Genişlik */
+        height: 40px; /* Yükseklik */
+        background-color: yellowgreen; /* Arka plan rengi */
+        color: black; /*Yazı rengi */
+        border: none; /* Kenarlık olmadan */
+        border-radius: 5px; /* Kenar yuvarlama */
+        cursor: pointer; /* Fare üzerine gelince işaretçi tipi */
+        margin-top: 10px; /* Butonlar arası boşluk */
+        font-size: 16px; /* Yazı boyutu */
+    }
+    input[type="email"] {
+        width: 600px; /* Genişlik */
+        height: 40px; /* Yükseklik */
+        background-color: yellowgreen; /* Arka plan rengi */
+        color: black; /*Yazı rengi */
+        border: none; /* Kenarlık olmadan */
+        border-radius: 5px; /* Kenar yuvarlama */
+        cursor: pointer; /* Fare üzerine gelince işaretçi tipi */
+        margin-top: 10px; /* Butonlar arası boşluk */
+        font-size: 16px; /* Yazı boyutu */
+    }
+    input[type="text"] {
+        width: 600px; /* Genişlik */
+        height: 40px; /* Yükseklik */
+        background-color: yellowgreen; /* Arka plan rengi */
+        color: black; /*Yazı rengi */
+        border: none; /* Kenarlık olmadan */
+        border-radius: 5px; /* Kenar yuvarlama */
+        cursor: pointer; /* Fare üzerine gelince işaretçi tipi */
+        margin-top: 10px; /* Butonlar arası boşluk */
+        font-size: 16px; /* Yazı boyutu */
+    }
+    input[type="date"] {
+        width: 600px; /* Genişlik */
+        height: 40px; /* Yükseklik */
+        background-color: yellowgreen; /* Arka plan rengi */
+        color: black; /*Yazı rengi */
+        border: none; /* Kenarlık olmadan */
+        border-radius: 5px; /* Kenar yuvarlama */
+        cursor: pointer; /* Fare üzerine gelince işaretçi tipi */
+        margin-top: 10px; /* Butonlar arası boşluk */
+        font-size: 16px; /* Yazı boyutu */
+    }
+    input[type="radio"] {
+        width: 600px; /* Genişlik */
+        height: 40px; /* Yükseklik */
+        background-color: yellowgreen; /* Arka plan rengi */
+        color: black; /*Yazı rengi */
+        border: none; /* Kenarlık olmadan */
+        border-radius: 5px; /* Kenar yuvarlama */
+        cursor: pointer; /* Fare üzerine gelince işaretçi tipi */
+        margin-top: 10px; /* Butonlar arası boşluk */
+        font-size: 16px; /* Yazı boyutu */
+    }
+    hr{
+        color:yellowgreen;
+        height:200px;
+       
+    }
+</style>
+
+
+<h1>Kullanıcı Giriş ve Kayıt Ol</h1>
+
+<!-- Giriş formu -->
+<h2>Giriş</h2>
+@if (!string.IsNullOrEmpty(ViewBag.GirisError))
+{
+    <p style="color: red;">@ViewBag.GirisError</p>
+}
+
+<form asp-controller="KullaniciGiris" asp-action="GirisKontrol" method="post">
+    <div class="sidebar">
+        <div class="button-background"> </div>
+        
+            <h3 >GREEN POWER</h3>
+       
+        
+    </div>
+    <div>
+        <label for="kullaniciEposta">E-posta &#128231;:</label>
+        <input type="email" id="kullaniciEposta" name="kullaniciEposta">
+    </div>
+    <div>
+        <label for="sifre">Şifre &#128273;:</label>
+        <input type="password" id="sifre" name="sifre">
+    </div>
+    <div>
+        <input type="submit" value="Giriş">
+    </div>
+</form>
+
+<hr> <!-- Bir ayraç ekledik -->
+<!-- Kayıt ol formu -->
+<!-- Kayıt formu -->
+<h2>Kayıt Ol</h2>
+@if (!string.IsNullOrEmpty(ViewBag.KayitError))
+{
+    <p style="color: red;">@ViewBag.KayitError</p>
+}
+
+<form asp-controller="KullaniciGiris" asp-action="KayitKontrol" method="post">
+    <div>
+        <label for="kullaniciAd">Kullanıcı Adı:</label>
+        <input type="text" id="kullaniciAd" name="kullaniciAd">
+    </div>
+    <div>
+        <label for="kullaniciSoyad">Kullanıcı Soyadı:</label>
+        <input type="text" id="kullaniciSoyad" name="kullaniciSoyad">
+    </div>
+    <div>
+        <label for="dogumTarih">Doğum Tarihi:</label>
+        <input type="date" id="dogumTarih" name="dogumTarih">
+    </div>
+    <div>
+        <label>Cinsiyet :</label>
+        <input type="radio" id="erkek" name="cinsiyet" value="false">
+        <label for="erkek">Erkek &#9794;</label>
+        <input type="radio" id="kadin" name="cinsiyet" value="true">
+        <label for="kadin">Kadın &#9792;</label>
+    </div>
+    <div>
+        <label for="kullaniciEposta">E-posta &#128231;:</label>
+        <input type="email" id="kullaniciEposta" name="kullaniciEposta">
+    </div>
+    <div>
+        <label for="telefon">Telefon &#128222;:</label>
+        <input type="text" id="telefon" name="telefon">
+    </div>
+    <div>
+        <label for="picture">Profil Resmi Yolu:</label>
+        <input type="text" id="picture" name="picture">
+    </div>
+    <div>
+        <label for="sifre">Şifre &#128273;:</label>
+        <input type="password" id="sifre" name="sifre">
+    </div>
+    <div>
+        <label for="hedef">Hedef:</label>
+        <select id="hedef" name="hedef">
+            <option value="1">Kilo Kazanma</option>
+            <option value="2">Kilo Kaybetme</option>
+            <option value="3">Kilo Koruma</option>
+            <option value="4">Kas Kazanma</option>
+        </select>
+    </div>
+    <div>
+        <input type="submit" value="Kayıt Ol">
+    </div>
+</form>

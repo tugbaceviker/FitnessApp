@@ -1,0 +1,561 @@
+﻿@using FitnessApp1.Models
+@model AntrenorKullaniciAnaTablolar
+<style>
+    .sidebar {
+        width: 170px; /* Yan menünün genişliği */
+        background-color: yellowgreen; /* Yan menü arka plan rengi */
+        height: 100%; /* Sayfa boyunca uzunluk */
+        position: fixed; /* Sabit konum */
+        top: 0; /* Üstten başlama pozisyonu */
+        left: 0; /* Soldan başlama pozisyonu */
+        overflow-x: hidden; /* Yatay scrollbar'ı gizle */
+        padding-top: 20px;
+    }
+
+        .sidebar a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 20px;
+            color: #000;
+            display: block;
+        }
+
+            .sidebar a:hover {
+                background-color: #ddd; /* Fare üstüne gelindiğinde arka plan rengi */
+            }
+
+
+    h1 {
+        color: rosybrown; /* Başlık rengi */
+        font-family: 'Times New Roman', Times, serif, sans-serif; /* Başlık fontu */
+        margin-top: 200px;
+        margin-left: 40px;
+    }
+
+    .button-background {
+        margin-top: 70px;
+        width: 350px;
+        height: 500px;
+        background-image: url('https://i.pinimg.com/474x/28/e7/ce/28e7cee8096f263938261641038f1fd1.jpg');
+        background-size: cover;
+        background-position: top;
+        /* Yuvarlak bir arka plan oluşturmak için */
+        flex-shrink: 0; /* Boyutun küçülmemesini sağla */
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: rosybrown;
+    }
+
+    h2 {
+        color: yellowgreen; /* Başlık rengi */
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        margin-left: 100px;
+        margin-top: 50px;
+        font-size: 30px;
+    }
+
+    input[type="submit"] {
+        width: 200px; /* Genişlik */
+        height: 40px; /* Yükseklik */
+        background-color: wheat; /* Arka plan rengi */
+        color: rosybrown; /* Yazı rengi */
+        border: none; /* Kenarlık olmadan */
+        border-radius: 5px; /* Kenar yuvarlama */
+        cursor: pointer; /* Fare üzerine gelince işaretçi tipi */
+        margin-top: 10px; /* Butonlar arası boşluk */
+        font-size: 16px; /* Yazı boyutu */
+    }
+
+
+        /* İlgili butonun üzerine gelindiğinde stilini değiştirme */
+        input[type="submit"]:hover {
+            background-color: yellow; /* Hover rengi */
+        }
+
+    button {
+        color: yellowgreen;
+        background-color: black;
+    }
+
+    table {
+        margin-left: 85px;
+        border-collapse: collapse;
+        width: 100%;
+        background-color: white;
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        color: black;
+    }
+
+    th {
+        background-color: yellowgreen;
+    }
+
+    tr:nth-child(even) {
+        background-color: lightyellow;
+    }
+
+    body {
+        background-image: url('https://i.pinimg.com/564x/cf/8b/8b/cf8b8bd73856fc7df8374a5a650c7bb5.jpg'); /* Arkaplan resminin URL'sini buraya ekleyin */
+        background-size: center; /* Resmi ekran boyutuna uyacak şekilde ölçeklendir */
+        background-position: right; /* Resmi ortala */
+    }
+</style>
+
+<h2>Egzersiz Programları</h2>
+<div class="sidebar">
+    <div class="button-background"> </div>
+    <form method="post" asp-controller="AntrenorAnaPanel" asp-action="Index3">
+        <input type="hidden" name="antrenor_id" value="@ViewBag.antrenor_id" />
+        <input type="hidden" name="kullanici_id" value="@ViewBag.id" />
+        <button type="submit">Gelen Kutusu</button>
+    </form>
+</div>
+<table>
+    <thead>
+        <tr>
+            <th>Egzersiz Adı</th>
+            <th>Hedef &#x1F3AF;</th>
+            <th>Set Sayısı</th>
+            <th>Video Link &#128421;</th>
+            <th>Baslama Tarihi</th>
+            <th>Program Süresi  &#128338;</th>
+            <th>Sil &#128465;</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var egzersizProgrami in Model.EgzersizProgramlari)
+        {
+            <tr>
+                <td>@egzersizProgrami.egzersiz_ad</td>
+                <td>
+                    @if (egzersizProgrami.hedef == 1)
+                    {
+                        <text>Kilo kazanma</text>
+                    }
+                    else if (egzersizProgrami.hedef == 2)
+                    {
+                        <text>Kilo kaybetme</text>
+                    }
+                    else if (egzersizProgrami.hedef == 3)
+                    {
+                        <text>Kilo koruma</text>
+                    }
+                    else if (egzersizProgrami.hedef == 4)
+                    {
+                        <text>Kas kazanma</text>
+                    }
+
+                </td>
+                <td>@egzersizProgrami.set_sayi</td>
+                <td>@egzersizProgrami.video_link</td>
+                <td>@egzersizProgrami.baslama_tarih</td>
+                <td>@egzersizProgrami.program_sure</td>
+                <td>
+                    <form method="post" asp-controller="AntrenorAnaPanel" asp-action="EgzersizDelete">
+                        <input type="hidden" name="id" value="@egzersizProgrami.id" />
+                        <input type="hidden" name="antrenor_id" value="@ViewBag.antrenor_id" />
+                        <input type="hidden" name="kullanici_id" value="@ViewBag.id" />
+
+                        <button type="submit">Sil</button>
+                    </form>
+                </td>
+
+
+                <!-- Diğer sütunlar için aynı şekilde devam edebilirsiniz -->
+            </tr>
+
+
+
+        }
+        <form asp-controller="AntrenorAnaPanel" asp-action="EgzersizEkle" method="post">
+            <input type="hidden" name="kullanici_id" value="@ViewBag.id" />
+            <input type="hidden" name="antrenor_id" value="@ViewBag.antrenor_id" />
+    <td><input type="text" name="egzersiz_ad" placeholder="Egzersiz Adı" required /></td>
+    <td><input type="number" name="hedef" placeholder="Hedef" required /></td>
+    <td><input type="number" name="set_sayi" placeholder="Set Sayı" required /></td>
+    <td><input type="text" name="video_link" placeholder="Video Link" required /></td>
+    <td><input type="datetime" name="baslama_tarih" placeholder="Başlama Tarihi" required /></td>
+    <td><input type="text" name="program_sure" placeholder="Program Süresi" required /></td>
+
+    <td><input type="submit" value="Egzersiz Ekle" /></td>
+    </form>
+    </tbody>
+</table>
+
+
+<h2>Beslenme Programları</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Hedef &#x1F3AF;</th>
+            <th>Günlük Öğün &#127831;</th>
+            <th>Kalori Hedef &#128293;</th>
+            <th>Sil;</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var beslenmeProgrami in Model.BeslenmeProgramlari)
+        {
+            <tr>
+                <td>
+                    @if (beslenmeProgrami.hedef == 1)
+                    {
+                        <text>Kilo kazanma</text>
+                    }
+                    else if (beslenmeProgrami.hedef == 2)
+                    {
+                        <text>Kilo kaybetme</text>
+                    }
+                    else if (beslenmeProgrami.hedef == 3)
+                    {
+                        <text>Kilo koruma</text>
+                    }
+                    else if (beslenmeProgrami.hedef == 4)
+                    {
+                        <text>Kas kazanma</text>
+                    }
+
+                </td>
+                <td>@beslenmeProgrami.gunluk_ogun</td>
+                <td>@beslenmeProgrami.kalori_hedef</td>
+                <td>
+                    <form method="post" asp-controller="AntrenorAnaPanel" asp-action="BeslenmeDelete">
+                        <input type="hidden" name="id" value="@beslenmeProgrami.id" />
+
+                        <input type="hidden" name="antrenor_id" value="@ViewBag.antrenor_id" />
+                        <input type="hidden" name="kullanici_id" value="@ViewBag.id" />
+
+                        <button type="submit">Sil</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        <form asp-controller="AntrenorAnaPanel" asp-action="BeslenmeEkle" method="post">
+            <input type="hidden" name="kullanici_id" value="@ViewBag.id" />
+            <input type="hidden" name="antrenor_id" value="@ViewBag.antrenor_id" />
+
+
+    <td><input type="number" name="hedef" placeholder="Hedef" required /></td>
+    <td><input type="text" name="gunluk_ogun" placeholder="Günlük Öğün" required /></td>
+    <td><input type="number" name="kalori_hedef" placeholder="Kalori Hedef" required /></td>
+
+
+    <td><input type="submit" value="Egzersiz Ekle" /></td>
+    </form>
+    </tbody>
+</table>
+
+<table>
+    <h2> İlerleme</h2>
+    <thead>
+        <tr>
+            <th>Boy</th>
+            <th>Kilo</th>
+            <th>Kas Oranı &#129318;</th>
+            <th>Yağ Oranı</th>
+            <th>Yakılan Kalori &#128293;</th>
+            <th>Alınan Kalori &#128293;</th>
+        </tr>
+    </thead>
+    <!-- Tablo verileri -->
+    <tbody>
+        @foreach (var versiyon in Model.GuncelVersiyonlari)
+        {
+            <tr>
+                <td>@versiyon.kullanici_boy</td>
+                <td>@versiyon.kullanici_kilo</td>
+                <td>@versiyon.kas_orani</td>
+                <td>@versiyon.yag_orani</td>
+                <td>@versiyon.yakilan_kalori</td>
+                <td>@versiyon.alinan_kalori</td>
+            </tr>
+        }
+
+
+
+    </tbody>
+</table>
+<!-- Bu kodlar, Chart.js kütüphanesi ile kullanıcı boy grafiğini oluşturmak için bir canvas elementi oluşturur -->
+<h2> İlerleme</h2>
+
+<canvas id="boyGrafigi" width="50" height="50"></canvas>
+<canvas id="kiloGrafigi" width="50" height="50"></canvas>
+<canvas id="kasOraniGrafigi" width="50" height="50"></canvas>
+<canvas id="yagOraniGrafigi" width="50" height="50"></canvas>
+<canvas id="yakilanKaloriGrafigi" width="50" height="50"></canvas>
+<canvas id="alinanKaloriGrafigi" width="50" height="50"></canvas>
+
+
+@section scripts {
+    <!-- Chart.js kütüphanesi -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Kullanıcı Boy Grafiği
+        var boyVerileri = @Html.Raw(Json.Serialize(Model.GuncelVersiyonlari.Select(v => v.kullanici_boy).ToList()));
+        var boyEtiketleri = Array.from(Array(boyVerileri.length).keys()).map(String);
+
+        var ctxBoy = document.getElementById('boyGrafigi');
+        var boyGrafigi = new Chart(ctxBoy, {
+            type: 'bar',
+            data: {
+                labels: boyEtiketleri,
+                datasets: [{
+                    label: 'Kullanıcı Boy',
+                    data: boyVerileri,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        display: true,
+                        color: 'black'
+                    }
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Etiketler'
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Boy'
+                        }
+                    }
+                }
+
+            }
+        });
+
+        // Diğer grafikler için aynı formatta devam edebilirsin
+
+        // Kullanıcı Kilo Grafiği
+        var kiloVerileri = @Html.Raw(Json.Serialize(Model.GuncelVersiyonlari.Select(v => v.kullanici_kilo).ToList()));
+        var kiloEtiketleri = Array.from(Array(kiloVerileri.length).keys()).map(String);
+
+        var ctxKilo = document.getElementById('kiloGrafigi');
+        var kiloGrafigi = new Chart(ctxKilo, {
+            type: 'bar',
+            data: {
+                labels: kiloEtiketleri,
+                datasets: [{
+                    label: 'Kullanıcı Kilo',
+                    data: kiloVerileri,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        display: true,
+                        color: 'black'
+                    }
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Etiketler'
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Kilo'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Kas Oranı Grafiği
+        var kasOraniVerileri = @Html.Raw(Json.Serialize(Model.GuncelVersiyonlari.Select(v => v.kas_orani).ToList()));
+        var kasEtiketleri = Array.from(Array(kasOraniVerileri.length).keys()).map(String);
+        var ctxKasOrani = document.getElementById('kasOraniGrafigi');
+        var kasOraniGrafigi = new Chart(ctxKasOrani, {
+            type: 'bar',
+            data: {
+                labels: kasEtiketleri,
+                datasets: [{
+                    label: 'Kas Oranı',
+                    data: kasOraniVerileri,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        display: true,
+                        color: 'black'
+                    }
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Etiketler'
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Kas Oranı'
+                        }
+                    }
+                }
+            }
+        });
+        var yagOraniVerileri = @Html.Raw(Json.Serialize(Model.GuncelVersiyonlari.Select(v => v.yag_orani).ToList()));
+        var yagEtiketleri = Array.from(Array(yagOraniVerileri.length).keys()).map(String);
+        var ctxYagOrani = document.getElementById('yagOraniGrafigi');
+        var yagOraniGrafigi = new Chart(ctxYagOrani, {
+            type: 'bar',
+            data: {
+                labels: yagEtiketleri,
+                datasets: [{
+                    label: 'Yağ Oranı',
+                    data: yagOraniVerileri,
+                    backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                    borderColor: 'rgba(255, 206, 86, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        display: true,
+                        color: 'black'
+                    }
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Etiketler'
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Yağ Oranı'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Yakılan Kalori Grafiği
+        var yakilanKaloriVerileri = @Html.Raw(Json.Serialize(Model.GuncelVersiyonlari.Select(v => v.yakilan_kalori).ToList()));
+        var yakilanEtiketleri = Array.from(Array(yakilanKaloriVerileri.length).keys()).map(String);
+        var ctxYakilanKalori = document.getElementById('yakilanKaloriGrafigi');
+        var yakilanKaloriGrafigi = new Chart(ctxYakilanKalori, {
+            type: 'bar',
+            data: {
+                labels: yakilanEtiketleri,
+                datasets: [{
+                    label: 'Yakılan Kalori',
+                    data: yakilanKaloriVerileri,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        display: true,
+                        color: 'black'
+                    }
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Etiketler'
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Yakılan Kalori'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Alınan Kalori Grafiği
+        var alinanKaloriVerileri = @Html.Raw(Json.Serialize(Model.GuncelVersiyonlari.Select(v => v.alinan_kalori).ToList()));
+        var alinanEtiketleri = Array.from(Array(alinanKaloriVerileri.length).keys()).map(String);
+        var ctxAlinanKalori = document.getElementById('alinanKaloriGrafigi');
+        var alinanKaloriGrafigi = new Chart(ctxAlinanKalori, {
+            type: 'bar',
+            data: {
+                labels: alinanEtiketleri,
+                datasets: [{
+                    label: 'Alınan Kalori',
+                    data: alinanKaloriVerileri,
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        display: true,
+                        color: 'black'
+                    }
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Etiketler'
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Alınan Kalori'
+                        }
+                    }
+                }
+            }
+        });
+
+                // Diğer grafikler için aynı formatta devam edebilirsin
+    </script>
+}

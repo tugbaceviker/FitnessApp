@@ -1,0 +1,81 @@
+﻿@using FitnessApp1.Models
+@model MesajViewModel
+    <style>
+        h1{
+            margin-top:10px;
+            color:rosybrown;
+        }
+
+        table {
+            background-image: url('https://i.pinimg.com/474x/2b/a0/ac/2ba0aca799f0ce7d33cb5cf983a99baf.jpg'); /* Arkaplan resminin URL'sini buraya ekleyin */
+            background-size: center; /* Resmi ekran boyutuna uyacak şekilde ölçeklendir */
+            background-position: right; /* Resmi ortala */
+            margin-right: 200px;
+            margin-left: 200px;
+            margin-top: 40px;
+        }
+
+        body {
+            background-color: wheat;
+        }
+
+        input[type="text"] {
+            width: 100%;
+        }
+
+        button {
+            width: 100%;
+        }
+    </style>
+
+@{
+    List<Tuple<string, string>> yeniTablo = new List<Tuple<string, string>>();
+
+    foreach (var satir in Model.Mesajlar)
+    {
+        string text = satir.text;
+        bool durum = satir.durum_kontrol;
+
+
+        if (durum && satir.alici_id != 0 && satir.gonderen_id != 0)
+        {
+            yeniTablo.Add(new Tuple<string, string>(text, ""));
+        }
+        if (!durum && satir.alici_id != 0 && satir.gonderen_id != 0)
+        {
+            yeniTablo.Add(new Tuple<string, string>("", text));
+        }
+    }
+}
+<h1>SOHBETİNİZ</h1>
+<table>
+    @foreach (var satir in yeniTablo)
+    {
+        <tr>
+            
+            <td>
+                @if (!string.IsNullOrEmpty(satir.Item1))
+                {
+                    <img src="@ViewBag.pictureAntrenor" style="width: 20px; height: 20px;" />
+                }
+            </td>
+            <td>@satir.Item1</td>
+
+            <td>@satir.Item2</td>
+            <td>
+                @if (!string.IsNullOrEmpty(satir.Item2))
+                {
+                    <img src="@ViewBag.pictureKullanici" style="width: 20px; height: 20px;" />
+                }
+            </td>
+        </tr>
+    }
+</table>
+<form method="post" asp-controller="KullaniciAnaPanel" asp-action="KullaniciMesajGonder">
+
+    <input type="hidden" name="antrenor_id" value="@ViewBag.antrenor_id" />
+    <input type="hidden" name="kullanici_id" value="@ViewBag.kullanici_id" />
+    <td><input type="text" name="mesaj" placeholder="Mesajiniz" required /></td>
+
+    <button type="submit">GÖNDER</button>
+</form>

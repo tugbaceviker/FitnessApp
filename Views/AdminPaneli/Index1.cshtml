@@ -1,0 +1,193 @@
+﻿@model FitnessApp1.ViewModels.AdminPanelViewModel
+<style>
+
+    topbar {
+    }
+
+
+
+
+    h1 {
+        color: red; /* Başlık rengi */
+        font-family: 'Times New Roman', Times, serif, sans-serif; /* Başlık fontu */
+        margin-top: 200px;
+        margin-left: 40px;
+    }
+
+    .button-background {
+        margin-top: 70px;
+        width: 350px;
+        height: 500px;
+        background-image: url('https://i.pinimg.com/474x/28/e7/ce/28e7cee8096f263938261641038f1fd1.jpg');
+        background-size: cover;
+        background-position: top;
+        /* Yuvarlak bir arka plan oluşturmak için */
+        flex-shrink: 0; /* Boyutun küçülmemesini sağla */
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: red;
+    }
+
+    h2 {
+        color: red; /* Başlık rengi */
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        margin-left: 25px;
+        margin-top: 50px;
+        font-size: 30px;
+    }
+
+    input[type="submit"] {
+        width: 200px; /* Genişlik */
+        height: 40px; /* Yükseklik */
+        background-color: red; /* Arka plan rengi */
+        color: black; /* Yazı rengi */
+        border: none; /* Kenarlık olmadan */
+        border-radius: 5px; /* Kenar yuvarlama */
+        cursor: pointer; /* Fare üzerine gelince işaretçi tipi */
+        margin-top: 10px; /* Butonlar arası boşluk */
+        font-size: 16px; /* Yazı boyutu */
+    }
+
+
+        /* İlgili butonun üzerine gelindiğinde stilini değiştirme */
+        input[type="submit"]:hover {
+            background-color: red; /* Hover rengi */
+        }
+
+    button {
+        color: red;
+        background-color: black;
+    }
+
+    table {
+        margin-left: 20px;
+        border-collapse: collapse;
+        width: 100%;
+        background-color: white;
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        color: black;
+    }
+
+    th {
+        background-color: red;
+    }
+
+    tr:nth-child(even) {
+        background-color: red;
+    }
+
+    body {
+        background-color: black;
+    }
+</style>
+
+
+<h1>Antrenör Bilgileri</h1>
+
+@foreach (var antrenor in Model.Antrenorler)
+{
+    <div>
+        <h3>@antrenor.antrenor_ad @antrenor.antrenor_soyad</h3>
+        <h3>@antrenor.antrenor_id</h3>
+        @if (ViewBag.pictureAntrenor == "")
+        {
+            <img src="https://i.pinimg.com/474x/fd/81/76/fd81760500afdbae097cb23b1b720c76.jpg" width="150" height="150">
+        }
+        @if (ViewBag.pictureAntrenor != "")
+        {
+            <img src="@ViewBag.pictureAntrenor" width="150" height="150">
+        }
+
+    <form asp-controller="AdminPaneli" asp-action="UpdateAntrenor" method="post">
+        <input type="hidden" name="id" value="@antrenor.antrenor_id" />
+        <label for="ad">Ad:</label>
+        <input type="text" id="ad" name="ad" value="@antrenor.antrenor_ad" /><br />
+        <label for="soyad">Soyad:</label>
+        <input type="text" id="soyad" name="soyad" value="@antrenor.antrenor_soyad" /><br />
+
+
+        <label for="picture">Picture:</label>
+        <input type="text" id="picture" name="picture" value="@antrenor.picture" /><br />
+
+        <label for="eposta">E-posta:</label>
+        <input type="text" id="eposta" name="eposta" value="@antrenor.e_posta" /><br />
+        <label for="telefon">Telefon:</label>
+        <input type="text" id="telefon" name="telefon" value="@antrenor.telefon" /><br />
+        <label for="uzmanlik">Uzmanlık:</label>
+        <select id="uzmanlik" name="uzmanlik">
+            @foreach (var item in GetUzmanlikOptions(antrenor.uzmanlik))
+            {
+                <option value="@item.Value" selected="@item.Selected">@item.Text</option>
+            }
+        </select><br />
+        <input type="submit" value="Güncelle" />
+    </form>
+    </div>
+}
+
+<h1>Bağlı Kullanıcılar</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Ad</th>
+            <th>Soyad</th>
+            <th>İd</th>
+            <th>Cinsiyet</th>
+            <th>Antrenör İd</th>
+            <th>Doğum Tarih</th>
+            <th>Eposta</th>
+            <th>Picture</th>
+            <th>Hedef</th>
+            <th>Telefon</th>
+            <th>Duzenle</th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var kullanici in Model.Kullanicilar)
+        {
+            <tr>
+                <td>@kullanici.kullanici_ad</td>
+                <td>@kullanici.kullanici_soyad</td>
+                <td>@kullanici.kullanici_id</td>
+                <td>@kullanici.cinsiyet</td>
+                <td>@kullanici.antrenor_id</td>
+                <td>@kullanici.dogum_tarih</td>
+                <td>@kullanici.e_posta</td>
+                <td>@kullanici.picture</td>
+                <td>@kullanici.hedef</td>
+                <td>@kullanici.telefon</td>
+                <td>
+                    <form method="post" asp-controller="AdminPaneli" asp-action="Index2">
+                        <input type="hidden" name="kullaniciId" value="@kullanici.kullanici_id" />
+                        <button type="submit">Düzenle</button>
+                    </form>
+                </td>
+
+
+            </tr>
+        }
+    </tbody>
+</table>
+@functions {
+    public List<SelectListItem> GetUzmanlikOptions(int selectedValue)
+    {
+        return new List<SelectListItem>
+    {
+            new SelectListItem { Text = "1 - Kilo Kazanma", Value = "1", Selected = (selectedValue == 1) },
+            new SelectListItem { Text = "2 - Kilo Kaybetme", Value = "2", Selected = (selectedValue == 2) },
+            new SelectListItem { Text = "3 - Kilo Koruma", Value = "3", Selected = (selectedValue == 3) },
+            new SelectListItem { Text = "4 - Kas Kazanma", Value = "4", Selected = (selectedValue == 4) }
+        };
+    }
+}
